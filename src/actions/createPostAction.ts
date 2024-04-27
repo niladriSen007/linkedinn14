@@ -1,16 +1,65 @@
-"use server";
+"use server"
 
-import { currentUser } from "@clerk/nextjs/server";
+import { Post } from "@/mongodb/models/PostSchema"
+import { UserType } from "@/types/user/types"
+import { currentUser } from "@clerk/nextjs/server"
+import { revalidatePath } from "next/cache"
 
 interface Post {
-  postText: string;
-  image: File;
+  postText: string
+  image: string[]
 }
 export const createPostAction = async (post: Post) => {
-  const user = await currentUser();
-  if (!user) throw new Error("User not found");
+  const user = await currentUser()
+  if (!user) throw new Error("User not authenticated")
 
-  let imgURL: string | undefined = "";
+  const { postText, image } = post
 
-  if (!post.postText.trim()) throw new Error("Post cannot be empty");
-};
+  if (!post.postText.trim()) throw new Error("Post cannot be empty")
+
+  /* console.log(
+    postText,
+    image,
+    user.id,
+    user.imageUrl,
+    user.firstName,
+    user.lastName
+  ) */
+
+  try {
+    const newUser: UserType = {
+      userId: user.id,
+      userImage: user.imageUrl,
+      firstName: user.firstName || "",
+      lastName: user.lastName || "",
+    }
+
+    let newPost
+    if (image.length > 0) {
+      newPost = new Post({
+        user: newUser,
+        postText,
+        image,
+      })
+    } else {
+      newPost = new Post({
+        user: newUser,
+        postText,
+      })
+    }
+
+    await newPost.save()
+
+    /* return NextResponse.json({
+      message: "Post created successfully",
+      status: 200,
+      success: true,
+      newPost,
+    }) */
+  } catch (error: any) {
+    console.log(error)
+    throw new Error("error creating post", error)
+  }
+
+  revalidatePath("/")
+}

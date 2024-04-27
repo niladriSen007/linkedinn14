@@ -6,8 +6,11 @@ const nextConfig = {
         protocol: "https",
         hostname: "links.papareact.com",
       },
+      {
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
-};
+}
 
-export default nextConfig;
+export default nextConfig
