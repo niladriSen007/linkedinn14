@@ -1,6 +1,10 @@
 import { Document } from "mongoose"
 import { UserType } from "../user/types"
 
+export interface ClientCommentBody {
+  comment: string
+}
+
 export interface ClientCommentType {
   user: UserType
   comment: string

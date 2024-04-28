@@ -6,10 +6,15 @@ import {
 } from "../comments/types"
 import { UserType } from "../user/types"
 
+export interface PostRequestBodyType {
+  user: UserType
+  postText: string
+  image?: [string] | []
+}
 export interface ClientPostType {
   user: UserType
   postText: string
-  image?: string
+  image?: [string]
   likes?: []
   comments?: ServerCommentType[]
 }

@@ -7,7 +7,6 @@ import {
 import mongoose, { Schema, model, models } from "mongoose"
 import { NextResponse } from "next/server"
 import { Comment } from "./CommentSchema"
-import { comment } from "postcss"
 
 const PostSchema = new Schema<IndivitualPostDocument>(
   {
@@ -131,7 +130,15 @@ PostSchema.methods.removePost = async function () {
 
 PostSchema.statics.getAllPosts = async function () {
   try {
-    const posts = await this.find().sort({ createdAt: -1 })
+    const posts = await this.find()
+      .sort({ createdAt: -1 })
+      .populate({
+        path: "comments",
+        model: Comment,
+        options: { sort: { createdAt: -1 } },
+      })
+      .populate("likes")
+      .lean()
     return posts.map((post: IndivitualPostDocument) => ({
       ...post,
       _id: post._id.toString(),

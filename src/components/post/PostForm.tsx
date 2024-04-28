@@ -18,6 +18,9 @@ const PostForm = () => {
   const imageInputRef = useRef<HTMLInputElement>(null)
   const formRef = useRef<HTMLFormElement>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [uploadStatus, setUploadStatus] = useState<
+    "idle" | "pending" | "success" | "error"
+  >("idle")
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -37,7 +40,9 @@ const PostForm = () => {
     },
   })
   const handlePost = async (values: z.infer<typeof formSchema>) => {
+    setUploadStatus("pending")
     const formDataCopy = values
+
     formRef.current?.reset()
     setImagePreview(null)
 
@@ -51,7 +56,10 @@ const PostForm = () => {
     }
 
     try {
-      await createPostAction(post)
+      const res = await createPostAction(post)
+      console.log(res)
+      setUploadStatus("success")
+      form.reset()
     } catch (error: any) {
       throw new Error("error creating post", error)
     }
@@ -65,8 +73,8 @@ const PostForm = () => {
           className="px-8 py-2"
           ref={formRef}
         >
-          <div className="flex flex-col justify-end gap-6">
-            <div className="flex items-center space-x-4 ">
+          <div className="flex flex-col justify-end gap-4">
+            <div className="flex items-center space-x-3 ">
               <Avatar className="border-2 border-white rounded-full my-2">
                 <AvatarImage
                   className="w-10 h-10 rounded-full"
@@ -88,7 +96,7 @@ const PostForm = () => {
                       <Input
                         placeholder="Start creating a post..."
                         {...field}
-                        className=" outline-none rounded-full py-2 px-4 border-2 border-zinc-400 bg-transparent"
+                        className="  rounded-full py-2 px-4 border-2 border-zinc-400 bg-transparent"
                       />
                     </FormControl>
 
@@ -124,7 +132,7 @@ const PostForm = () => {
             duration-200 ease-in-out text-white px-4 py-1 shadow-2xl"
               type="submit"
             >
-              Post
+              {uploadStatus == "pending" ? "Posting" : "Post"}
             </Button>
           </div>
         </form>

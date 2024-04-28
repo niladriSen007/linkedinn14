@@ -1,9 +1,11 @@
 "use server"
 
 import { Post } from "@/mongodb/models/PostSchema"
+import { ClientPostType, PostRequestBodyType } from "@/types/post/types"
 import { UserType } from "@/types/user/types"
 import { currentUser } from "@clerk/nextjs/server"
 import { revalidatePath } from "next/cache"
+import { NextResponse } from "next/server"
 
 interface Post {
   postText: string
@@ -50,12 +52,12 @@ export const createPostAction = async (post: Post) => {
 
     await newPost.save()
 
-    /* return NextResponse.json({
+    /* return {
       message: "Post created successfully",
       status: 200,
       success: true,
       newPost,
-    }) */
+    } */
   } catch (error: any) {
     console.log(error)
     throw new Error("error creating post", error)
