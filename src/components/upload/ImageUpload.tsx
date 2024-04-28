@@ -17,9 +17,9 @@ const ImageUpload = ({ value, onChange, onRemove }: ImageUploadProps) => {
 
   return (
     <div>
-      <div className="mb-4 flex flex-wrap items-center gap-4">
+      <div className=" flex flex-wrap items-center gap-4">
         {value.map((url) => (
-          <div key={url} className="relative w-full h-[320px]">
+          <div key={url} className="relative w-full h-[320px] mb-4">
             <div className="absolute top-0 right-0 z-10">
               <Button
                 type="button"
@@ -44,8 +44,8 @@ const ImageUpload = ({ value, onChange, onRemove }: ImageUploadProps) => {
             <Button
               type="button"
               onClick={() => open()}
-              className="bg-green-600 hover:bg-green-700 transition-all
-            duration-200 ease-in-out text-white px-4 py-1 shadow-2xl"
+              className={`bg-green-600 hover:bg-green-700 transition-all
+            duration-200 ease-in-out text-white px-4 py-1 shadow-2xl `}
             >
               <ImageIcon className="mr-2" size={16} color="currentColor" />
               {!value ? "Change" : "Add"} image

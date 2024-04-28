@@ -1,4 +1,4 @@
-import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
 import {
   AlertCircle,
   AlertOctagonIcon,
@@ -11,13 +11,13 @@ import {
   MessageCircleCode,
   PersonStandingIcon,
   Search,
-} from "lucide-react";
-import Image from "next/image";
-import { Button } from "../ui/button";
+} from "lucide-react"
+import Image from "next/image"
+import { Button } from "../ui/button"
 
 const Navbar = () => {
   return (
-    <div className="w-screen bg-white text-slate-800 sticky top-0 z-50 shadow-xl">
+    <div className="w-screen bg-white text-slate-800 sticky top-0 left-0 z-50 shadow-xl">
       <div className="flex w-full md:max-w-5xl mx-auto text-white items-center justify-between py-3  ">
         <div className="flex items-center justify-between px-4 md:px-0 w-full md:w-fit md:gap-2">
           <Image
@@ -80,6 +80,6 @@ const Navbar = () => {
         </div>
       </div>
     </div>
-  );
-};
-export default Navbar;
+  )
+}
+export default Navbar
