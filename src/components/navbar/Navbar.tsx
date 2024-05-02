@@ -14,6 +14,7 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import { Button } from "../ui/button"
+import Link from "next/link"
 
 const Navbar = () => {
   return (
@@ -49,18 +50,24 @@ const Navbar = () => {
           </div>
         </div>
         <div className="hidden md:flex items-center text-slate-800 gap-8">
-          <div className="flex flex-col justify-center items-center">
+          <Link
+            href={"/"}
+            className="flex flex-col justify-center items-center"
+          >
             <Home size={20} />
             <span>Home</span>
-          </div>
+          </Link>
           <div className="flex flex-col justify-center items-center">
             <PersonStandingIcon size={20} />
             <span>My Network</span>
           </div>
-          <div className="flex flex-col justify-center items-center">
+          <Link
+            href={"/job"}
+            className="flex flex-col justify-center items-center"
+          >
             <Briefcase size={20} />
             <span>Jobs</span>
-          </div>
+          </Link>
           <div className="flex flex-col justify-center items-center">
             <MessageCircleCode size={20} />
             <span>Messaging</span>

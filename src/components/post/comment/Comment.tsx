@@ -12,7 +12,7 @@ const Comment = ({
   userId: String
 }) => {
   return (
-    <div>
+    <div className="overflow-x-hidden">
       <CommentForm {...{ postId }} />
       {comments.map((comment) => (
         <div key={comment._id} className="flex items-start gap-2 mb-3">
@@ -28,7 +28,7 @@ const Comment = ({
               <h1 className="font-semibold">{comment.user.firstName}</h1>{" "}
               {userId === comment.user.userId && (
                 <span className="text-xs text-gray-100 px-2 py-0.5 rounded-md bg-slate-400 ">
-                  - Author
+                  Author
                 </span>
               )}
             </span>
