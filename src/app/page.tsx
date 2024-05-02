@@ -17,7 +17,7 @@ export default async function Home() {
         {/* user info */}
         <UserComponent />
       </section>
-      <section className=" col-span-3 shadow-lg  rounded-md">
+      <section className=" col-span-3 shadow-lg  rounded-md overflow-x-hidden">
         {/* post form and feed */}
         <SignedIn>
           <div className=" flex flex-col  border border-gray-300 my-4 rounded-md  ">
