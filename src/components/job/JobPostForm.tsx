@@ -17,9 +17,12 @@ import { Button } from "../ui/button"
 import { Label } from "../ui/label"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
 import { CreateJobAction } from "@/actions/createJobAction"
+import ImageUpload from "../upload/ImageUpload"
+import { JobType } from "@/app/job/page"
 const formSchema = z.object({
   title: z.string(),
   company: z.string(),
+  companyLogo: z.array(z.string()),
   location: z.string(),
   description: z.string(),
   requirements: z.string(),
@@ -29,12 +32,17 @@ const formSchema = z.object({
   recruting: z.boolean(),
 })
 
-const JobPostForm = () => {
+const JobPostForm = ({
+  setJob,
+}: {
+  setJob: React.Dispatch<React.SetStateAction<JobType>>
+}) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
       company: "",
+      companyLogo: [],
       location: "",
       description: "",
       requirements: "",
@@ -44,12 +52,14 @@ const JobPostForm = () => {
       recruting: true,
     },
   })
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values)
     const res = await CreateJobAction(values)
     form.reset()
+    setJob({ post: false, find: true })
   }
   return (
     <div className="my-6 overflow-x-hidden">
@@ -69,6 +79,28 @@ const JobPostForm = () => {
                   />
                 </FormControl>
 
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="companyLogo"
+            render={({ field }: any) => (
+              <FormItem>
+                <FormControl>
+                  <ImageUpload
+                    value={field.value}
+                    onChange={(url) => field.onChange([...field.value, url])}
+                    onRemove={(url) =>
+                      field.onChange([
+                        ...field.value.filter(
+                          (imageUrl: string) => imageUrl !== url
+                        ),
+                      ])
+                    }
+                  />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}

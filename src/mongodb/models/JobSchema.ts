@@ -3,8 +3,7 @@ import {
   JobModelDocument,
   ServerJobType,
 } from "@/types/jobs/types"
-import { model, models } from "mongoose"
-import { Schema } from "mongoose"
+import { model, models, Schema } from "mongoose"
 
 const JobSchema = new Schema<IndivitualJobDocument>(
   {
@@ -15,6 +14,9 @@ const JobSchema = new Schema<IndivitualJobDocument>(
     company: {
       type: String,
       required: true,
+    },
+    companyLogo: {
+      type: [String],
     },
     location: {
       type: String,
@@ -63,6 +65,18 @@ const JobSchema = new Schema<IndivitualJobDocument>(
     timestamps: true,
   }
 )
+
+JobSchema.methods.getJobDetails = async function () {
+  try {
+    return this
+  } catch (error: any) {
+    return {
+      error: error.message,
+      status: 500,
+      success: false,
+    }
+  }
+}
 
 JobSchema.statics.getAllJobs = async function () {
   try {

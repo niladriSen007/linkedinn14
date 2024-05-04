@@ -1,30 +1,16 @@
 import { connection } from "@/mongodb/database/connection"
+import { Job } from "@/mongodb/models/JobSchema"
 import { Post } from "@/mongodb/models/PostSchema"
 import { NextRequest, NextResponse } from "next/server"
 
-export const POST = async (req: NextRequest) => {
+export const GET = async (req: NextRequest) => {
   await connection()
-
   try {
-    const { user, postText, image } = await req.json()
-    if (!user || !postText) {
-      return NextResponse.json({
-        error: "Please provide all the details",
-        status: 400,
-        success: false,
-      })
-    }
-    const newPost = new Post({
-      user,
-      postText,
-      image,
-    })
-    await newPost.save()
+    const jobs = await Job.getAllJobs()
     return NextResponse.json({
-      message: "Post created successfully",
+      jobs,
       status: 200,
       success: true,
-      newPost,
     })
   } catch (error: any) {
     return NextResponse.json({
