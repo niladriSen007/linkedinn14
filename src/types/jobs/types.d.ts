@@ -4,6 +4,7 @@ import { UserType } from "../user/types"
 export interface ClientJobType {
   title: string
   company: string
+  companyLogo: [string]
   location: string
   description: string
   requirements: string
@@ -19,7 +20,9 @@ export interface ServerJobType extends ClientJobType, Document {
   updatedAt: Date
 }
 
-export interface IndivitualJobMethods {}
+export interface IndivitualJobMethods {
+  getJobDetails: () => Promise<ServerJobType>
+}
 
 export interface JobModelStaticMethods {
   getAllJobs: () => Promise<ServerJobType[]>

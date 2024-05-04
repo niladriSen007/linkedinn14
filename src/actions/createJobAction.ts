@@ -8,6 +8,7 @@ import { currentUser } from "@clerk/nextjs/server"
 interface JobType {
   title: string
   company: string
+  companyLogo: string[]
   location: string
   description: string
   requirements: string
@@ -21,6 +22,8 @@ export const CreateJobAction = async (job: JobType) => {
   await connection()
   const user = await currentUser()
 
+  console.log(job)
+
   if (!user) throw new Error("User not authenticated")
 
   const newUser: UserType = {
@@ -30,18 +33,40 @@ export const CreateJobAction = async (job: JobType) => {
     lastName: user.lastName || "",
   }
 
+  const {
+    company,
+    companyLogo,
+    contact,
+    description,
+    jobType,
+    location,
+    recruting,
+    requirements,
+    salary,
+    title,
+  } = job
+
   try {
     const newJob = new Job({
-      ...job,
+      company,
+      companyLogo: companyLogo[0],
+      contact,
+      description,
+      jobType,
+      location,
+      recruting,
+      requirements,
+      salary,
+      title,
       createdBy: newUser,
     })
     await newJob.save()
-    return {
+    /*  return {
       message: "Job created successfully",
       status: 200,
       success: true,
       newJob,
-    }
+    } */
   } catch (error: any) {
     return {
       error: error.message,

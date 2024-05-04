@@ -18,7 +18,7 @@ const ImageUpload = ({ value, onChange, onRemove }: ImageUploadProps) => {
   return (
     <div>
       <div className=" flex flex-wrap items-center gap-4">
-        {value.map((url) => (
+        {value?.map((url) => (
           <div key={url} className="relative w-full h-[320px] mb-4">
             <div className="absolute top-0 right-0 z-10">
               <Button

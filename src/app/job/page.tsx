@@ -4,15 +4,15 @@ import ShowJobs from "@/components/job/ShowJobs"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 
-interface JobType {
+export interface JobType {
   post: Boolean
   find: Boolean
 }
 
 const Job = () => {
   const [getJob, setJob] = useState<JobType>({
-    post: false,
-    find: true,
+    post: true,
+    find: false,
   })
   return (
     <>
@@ -38,7 +38,7 @@ const Job = () => {
         <section>
           {getJob.post && (
             <>
-              <JobPostForm />
+              <JobPostForm {...{ setJob }} />
             </>
           )}
           {getJob.find && (
